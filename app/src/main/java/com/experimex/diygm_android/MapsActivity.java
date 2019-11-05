@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -23,12 +24,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     TextView t;
     private FusedLocationProviderClient fusedLocationClient;
     int currentCount = 0;
+    ArrayList<Marker> markers = new ArrayList<Marker>(0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        final Button removeAllButton = findViewById(R.id.removeall_button);
+        removeAllButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                removeAllMarkers();
+            }
+        });
+
+
         final Button hideButton = findViewById(R.id.hide_button);
         hideButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -88,10 +100,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onSuccess(Location location) {
                         if (location != null) {
                             LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            mMap.addMarker(new MarkerOptions().position(currentLocation).title(String.valueOf(currentCount)));
+                            markers.add(mMap.addMarker(new MarkerOptions().position(currentLocation).title(String.valueOf(currentCount))));
+
                         }
                     }
                 });
 
+    }
+
+    void removeAllMarkers() {
+        for (int i = 0; i < markers.size(); i++) {
+            markers.get(i).remove();
+        }
     }
 }
