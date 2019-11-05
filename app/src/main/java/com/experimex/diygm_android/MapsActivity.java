@@ -17,8 +17,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -26,8 +28,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     TextView t;
     private FusedLocationProviderClient fusedLocationClient;
-    double currentLat = 40.7;
-    double currentLon = -74;
     int currentCount = 0;
 
     @Override
@@ -54,13 +54,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        t = (TextView) findViewById(R.id.infotext);
-        t.setText("Hello");
+        t = (TextView) findViewById(R.id.count_text);
+        t.setText("750");
 
-        final Button button = findViewById(R.id.button_id);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button markButton = findViewById(R.id.mark_button);
+        markButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 addMarker();
+            }
+        });
+
+        final Button hideButton = findViewById(R.id.hide_button);
+        hideButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                LinearLayout layout = findViewById(R.id.bluetooth_layout);
+                layout.setVisibility(LinearLayout.GONE);
             }
         });
     }
@@ -70,9 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
 
-        // Add a marker in Sydney and move the camera
-        LatLng currentLocation = new LatLng(currentLat, currentLon);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40.7, -74)));
     }
 
     void addMarker() {
