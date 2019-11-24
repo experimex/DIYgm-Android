@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.experimex.diygm_android"
-        minSdkVersion 14
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -33,4 +33,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
+    implementation "com.polidea.rxandroidble2:rxandroidble:1.10.1"
 }

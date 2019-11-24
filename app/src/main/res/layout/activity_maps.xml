@@ -36,13 +36,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <Button
+                android:id="@+id/undo_button"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Undo Marker"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                />
+            <Button
                 android:id="@+id/removeall_button"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Remove All"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="60dp"
                 />
         </RelativeLayout>
 
