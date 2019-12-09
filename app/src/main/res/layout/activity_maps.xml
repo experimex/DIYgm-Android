@@ -3,7 +3,9 @@
     android:id="@+id/map_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="android.kaviles.bletutorial.MainActivity" >
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -74,6 +76,16 @@
             android:layout_marginTop="50dp"
             android:gravity="center"
             android:textSize="100dp" />
+
+        <TextView
+            android:id="@+id/marker_count_text"
+            android:layout_width="200dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp"
+            android:text="Marker Count: 0" />
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
