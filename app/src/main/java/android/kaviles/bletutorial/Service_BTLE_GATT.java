@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.List;
 import java.util.UUID;
@@ -322,6 +324,8 @@ public class Service_BTLE_GATT extends Service {
         }
 
         mBluetoothGatt.writeDescriptor(descriptor);
+
+
     }
 
     /**

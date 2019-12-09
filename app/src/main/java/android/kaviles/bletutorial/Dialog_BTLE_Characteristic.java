@@ -1,5 +1,6 @@
 package android.kaviles.bletutorial;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -7,9 +8,12 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.UUID;
 
@@ -21,6 +25,7 @@ public class Dialog_BTLE_Characteristic extends DialogFragment implements Dialog
     private String title;
     private Service_BTLE_GATT service;
     private BluetoothGattCharacteristic characteristic;
+    private Activity activity;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,10 +49,13 @@ public class Dialog_BTLE_Characteristic extends DialogFragment implements Dialog
             case -1:
                 // Yes
                 service.setCharacteristicNotification(characteristic, true);
+                LinearLayout mapLayout = (LinearLayout) getActivity().findViewById(R.id.map_layout);
+                mapLayout.setVisibility(View.VISIBLE);
+
                 break;
             case -2:
                 // Cancel
-                service.setCharacteristicNotification(characteristic, false);
+                //service.setCharacteristicNotification(characteristic, false);
                 break;
             default:
                 break;
