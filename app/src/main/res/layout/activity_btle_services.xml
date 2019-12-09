@@ -138,24 +138,6 @@
                 android:textSize="20dp"
                 android:text="Marker Count: 0" />
 
-
-            <LinearLayout
-                android:id="@+id/bluetooth_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="#ffffff">
-
-                <Button
-                    android:id="@+id/hide_button"
-                    android:layout_height="100dp"
-                    android:layout_width="100dp"
-                    android:text="Hide"
-                    android:layout_gravity="center"
-                    />
-
-            </LinearLayout>
-
         </FrameLayout>
 
     </LinearLayout>

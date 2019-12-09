@@ -157,14 +157,6 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
             }
         });
 
-        final Button hideButton = (Button) findViewById(R.id.hide_button);
-        hideButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                LinearLayout layout = (LinearLayout) findViewById(R.id.bluetooth_layout);
-                layout.setVisibility(LinearLayout.GONE);
-            }
-        });
-
         builder = new AlertDialog.Builder(this);
     }
 
