@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity_BTLE_Services" />
-        <activity android:label="@string/app_name" android:name="MapsActivity"/>
 
         <service
             android:name=".Service_BTLE_GATT"
@@ -30,7 +29,8 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAzAB8SBl8-bTG8c8ev3zNdNS5sHXJa0bU"/>
+            android:value="AIzaSyB1gMLaumg_zkAk8GOZ8HY5It9k6BAGDRc"/>
+
     </application>
 
 </manifest>
