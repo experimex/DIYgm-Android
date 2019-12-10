@@ -5,7 +5,9 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,15 +126,22 @@ public class ListAdapter_BTLE_Services extends BaseExpandableListAdapter {
         }
 
         tv_property.setText(sb.toString());
-
-        TextView tv_value = (TextView) convertView.findViewById(R.id.tv_value);
+        TextView tv_value = (TextView) this.activity.findViewById(R.id.count_text);
 
         byte[] data = bluetoothGattCharacteristic.getValue();
+
         if (data != null) {
-            tv_value.setText("Value: " + Utils.hexToString(data));
+            String[] dataArray = Utils.hexToString(data).split(" ");
+            String stringToPrint = "";
+            for (String s : dataArray) {
+                String asciiToCharacter = String.valueOf((char)Integer.parseInt(s, 16));
+                stringToPrint = stringToPrint.concat(asciiToCharacter);
+            }
+
+            tv_value.setText(stringToPrint);
         }
         else {
-            tv_value.setText("Value: ---");
+            tv_value.setText(String.valueOf(0));
         }
 
         return convertView;
