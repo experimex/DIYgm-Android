@@ -106,6 +106,15 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="60dp"
                     />
+                <Button
+                    android:id="@+id/export_button"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Export Button"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="110dp"
+                    />
             </RelativeLayout>
 
             <TextView

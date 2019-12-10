@@ -1,5 +1,6 @@
 package android.kaviles.bletutorial;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -9,8 +10,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +34,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.opencsv.CSVWriter;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +67,7 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
     private GoogleMap mMap;
     TextView t;
     private FusedLocationProviderClient fusedLocationClient;
-    int currentCount = 0;
+    String currentCount = "";
     ArrayList<Marker> markers = new ArrayList<Marker>(0);
     AlertDialog.Builder builder;
 
@@ -154,6 +160,13 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
         removeAllButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 removeAllMarkers();
+            }
+        });
+
+        final Button exportDataButton = (Button) findViewById(R.id.export_button);
+        exportDataButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                exportData();
             }
         });
 
@@ -280,7 +293,8 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
                     public void onSuccess(Location location) {
                         if (location != null) {
                             LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            markers.add(mMap.addMarker(new MarkerOptions().position(currentLocation).title(String.valueOf(currentCount))));
+                            currentCount = ((TextView)findViewById(R.id.count_text)).getText().toString();
+                            markers.add(mMap.addMarker(new MarkerOptions().position(currentLocation).title(currentCount)));
                             ((TextView) findViewById(R.id.marker_count_text)).setText("Marker Count: " + markers.size());
                             Log.d("MARKERS ADDED", Integer.toString(markers.size()));
                         }
@@ -316,6 +330,40 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
 
         AlertDialog dialog = builder.create();
         dialog.show();
+
+    }
+
+    void exportData() {
+        if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("CSV WRITING","Permission is granted");
+
+            try {
+                String filename = "eree";
+
+                String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename + ".csv";
+                CSVWriter writer = new CSVWriter(new FileWriter(csv));
+
+                List<String[]> data = new ArrayList<String[]>();
+                data.add(new String[] {"Latitude", "Longitude", "Count Rate"});
+                for (Marker marker : markers) {
+                    data.add(new String[] {Double.toString(marker.getPosition().latitude),
+                                           Double.toString(marker.getPosition().longitude),
+                                           marker.getTitle()});
+                }
+
+                writer.writeAll(data);
+
+                writer.close();
+
+
+            } catch (IOException e) {
+                Log.d("CSV WRITING", e.toString());
+            }
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
+
 
     }
 }
