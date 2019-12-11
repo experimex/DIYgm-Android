@@ -145,7 +145,7 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
         final Button markButton = (Button) findViewById(R.id.mark_button);
         markButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addMarker();
+                addMarker(false, "0");
             }
         });
 
@@ -286,14 +286,22 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
                 });
     }
 
-    void addMarker() {
+    public void addMarker(final boolean auto, final String countRate) {
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
                             LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            currentCount = ((TextView)findViewById(R.id.count_text)).getText().toString();
+
+                            // If auto, get count rate from parameter. If not, get it from TextView.
+                            if (auto) {
+                                currentCount = countRate;
+                            }
+                            else {
+                                currentCount = ((TextView)findViewById(R.id.count_text)).getText().toString();
+                            }
+
                             markers.add(mMap.addMarker(new MarkerOptions().position(currentLocation).title(currentCount)));
                             ((TextView) findViewById(R.id.marker_count_text)).setText("Marker Count: " + markers.size());
                             Log.d("MARKERS ADDED", Integer.toString(markers.size()));

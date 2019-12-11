@@ -29,12 +29,15 @@ public class ListAdapter_BTLE_Services extends BaseExpandableListAdapter {
     private ArrayList<BluetoothGattService> services_ArrayList;
     private HashMap<String, ArrayList<BluetoothGattCharacteristic>> characteristics_HashMap;
 
+    private boolean autoMark;
+
     public ListAdapter_BTLE_Services(Activity activity, ArrayList<BluetoothGattService> listDataHeader,
                                  HashMap<String, ArrayList<BluetoothGattCharacteristic>> listChildData) {
 
         this.activity = activity;
         this.services_ArrayList = listDataHeader;
         this.characteristics_HashMap = listChildData;
+        this.autoMark = true;
     }
 
     @Override
@@ -139,6 +142,10 @@ public class ListAdapter_BTLE_Services extends BaseExpandableListAdapter {
             }
 
             tv_value.setText(stringToPrint);
+
+            if (autoMark) {
+                ((Activity_BTLE_Services)(this.activity)).addMarker(true, stringToPrint);
+            }
         }
         else {
             tv_value.setText(String.valueOf(0));
