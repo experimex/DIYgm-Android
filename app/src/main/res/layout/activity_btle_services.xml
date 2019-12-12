@@ -92,6 +92,14 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="60dp"
                     />
+                <Button
+                    android:id="@+id/disconnect_button"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Disconnect"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="110dp"
+                    />
             </RelativeLayout>
 
             <RelativeLayout

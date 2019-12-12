@@ -161,6 +161,13 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
             }
         });
 
+        final Button disconnectButton = (Button) findViewById(R.id.disconnect_button);
+        disconnectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                disconnect();
+            }
+        });
+
         final Button undoButton = (Button) findViewById(R.id.undo_button);
         undoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -325,7 +332,24 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
 
     void toggleAutoMark() {
         expandableListAdapter.toggleAutoMark();
+    }
 
+    void disconnect() {
+        builder.setMessage("Are you sure you want to disconnect? Make sure to export your data if you want to keep it.");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent myIntent = new Intent(Activity_BTLE_Services.this, MainActivity.class);
+                Activity_BTLE_Services.this.startActivity(myIntent);
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     void undoMarker() {
