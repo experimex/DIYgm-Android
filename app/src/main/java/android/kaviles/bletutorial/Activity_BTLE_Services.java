@@ -22,7 +22,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -144,6 +146,7 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
         t = (TextView) findViewById(R.id.count_text);
         t.setText("750");
 
+
         final Button markButton = (Button) findViewById(R.id.mark_button);
         markButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -151,7 +154,7 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
             }
         });
 
-        final Button toggleAutoMarkButton = (Button) findViewById(R.id.toggle_auto_mark_button);
+        final Button toggleAutoMarkButton = (Button) findViewById(R.id.auto_mark_switch);
         toggleAutoMarkButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 toggleAutoMark();
@@ -323,12 +326,6 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
     void toggleAutoMark() {
         expandableListAdapter.toggleAutoMark();
 
-        if (((TextView)(findViewById(R.id.toggle_auto_mark_button))).getText().toString() == "Turn On Auto-Mark") {
-            ((TextView)(findViewById(R.id.toggle_auto_mark_button))).setText("Turn Off Auto-Mark");
-        }
-        else {
-            ((TextView)(findViewById(R.id.toggle_auto_mark_button))).setText("Turn On Auto-Mark");
-        }
     }
 
     void undoMarker() {
