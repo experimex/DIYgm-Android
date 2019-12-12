@@ -36,6 +36,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.opencsv.CSVWriter;
 
+import org.w3c.dom.Text;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -146,6 +148,13 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
         markButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 addMarker(false, "0");
+            }
+        });
+
+        final Button toggleAutoMarkButton = (Button) findViewById(R.id.toggle_auto_mark_button);
+        toggleAutoMarkButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                toggleAutoMark();
             }
         });
 
@@ -309,6 +318,17 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
                     }
                 });
 
+    }
+
+    void toggleAutoMark() {
+        expandableListAdapter.toggleAutoMark();
+
+        if (((TextView)(findViewById(R.id.toggle_auto_mark_button))).getText().toString() == "Turn On Auto-Mark") {
+            ((TextView)(findViewById(R.id.toggle_auto_mark_button))).setText("Turn Off Auto-Mark");
+        }
+        else {
+            ((TextView)(findViewById(R.id.toggle_auto_mark_button))).setText("Turn On Auto-Mark");
+        }
     }
 
     void undoMarker() {

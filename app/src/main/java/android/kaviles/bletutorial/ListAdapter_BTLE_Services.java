@@ -158,4 +158,8 @@ public class ListAdapter_BTLE_Services extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
+    public void toggleAutoMark() {
+        autoMark = !autoMark;
+    }
 }
