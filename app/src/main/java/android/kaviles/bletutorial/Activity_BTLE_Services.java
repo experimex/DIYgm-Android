@@ -17,9 +17,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -386,28 +388,53 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             Log.d("CSV WRITING","Permission is granted");
 
-            try {
-                String filename = "eree";
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
 
-                String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename + ".csv";
-                CSVWriter writer = new CSVWriter(new FileWriter(csv));
+            builder.setMessage("Enter a filename ending with .csv:");
+            builder.setPositiveButton("Export", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    try {
+                        String filename = input.getText().toString();
+                        if (filename.equals("")) {
+                            Utils.toast(getApplicationContext(), "You must enter a filename.");
+                            throw new IOException();
+                        }
+                        if (filename.length() < 4 || (filename.length() >= 4 && !filename.substring(filename.length()-4).equals(".csv"))) {
+                            filename = filename.concat(".csv");
+                        }
+                        String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename;
 
-                List<String[]> data = new ArrayList<String[]>();
-                data.add(new String[] {"Latitude", "Longitude", "Count Rate"});
-                for (Marker marker : markers) {
-                    data.add(new String[] {Double.toString(marker.getPosition().latitude),
-                                           Double.toString(marker.getPosition().longitude),
-                                           marker.getTitle()});
+                        CSVWriter writer = new CSVWriter(new FileWriter(csv));
+                        List<String[]> data = new ArrayList<String[]>();
+                        data.add(new String[] {"Latitude", "Longitude", "Count Rate"});
+                        for (Marker marker : markers) {
+                            data.add(new String[] {Double.toString(marker.getPosition().latitude),
+                                    Double.toString(marker.getPosition().longitude),
+                                    marker.getTitle()});
+                        }
+
+                        writer.writeAll(data);
+                        writer.close();
+
+                        Utils.toast(getApplicationContext(), filename + " can be found in File Manager.");
+                    }
+                    catch (IOException e) {
+                        Log.d("CSV WRITING", e.toString());
+                    }
                 }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
 
-                writer.writeAll(data);
+                }
+            });
 
-                writer.close();
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            builder.setView(null);
 
-
-            } catch (IOException e) {
-                Log.d("CSV WRITING", e.toString());
-            }
         }
         else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
