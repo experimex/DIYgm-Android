@@ -148,6 +148,9 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
         t = (TextView) findViewById(R.id.count_text);
         t.setText("750");
 
+        t = (TextView) findViewById(R.id.name_text);
+        t.setText(name);
+
 
         final Button markButton = (Button) findViewById(R.id.mark_button);
         markButton.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +271,6 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
                 for (BluetoothGattCharacteristic characteristic: characteristicsList) {
                     characteristics_HashMap.put(characteristic.getUuid().toString(), characteristic);
                     newCharacteristicsList.add(characteristic);
-                    Log.d("CHARACTERISTIC", characteristic.getUuid().toString());
 
                     if (characteristic.getUuid().toString().equals("e3754285-8072-458b-a45b-94a0dab36801")) {
                         mBTLE_Service.setCharacteristicNotification(characteristic, true);
@@ -327,7 +329,6 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
 
                             markers.add(mMap.addMarker(new MarkerOptions().position(currentLocation).title(currentCount)));
                             ((TextView) findViewById(R.id.marker_count_text)).setText("Marker Count: " + markers.size());
-                            Log.d("MARKERS ADDED", Integer.toString(markers.size()));
                         }
                     }
                 });
