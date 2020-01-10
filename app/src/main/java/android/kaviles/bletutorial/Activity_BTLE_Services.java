@@ -233,15 +233,9 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
                 .get(childPosition);
 
         if (Utils.hasWriteProperty(characteristic.getProperties()) != 0) {
-            String uuid = characteristic.getUuid().toString();
-
-            Dialog_BTLE_Characteristic dialog_btle_characteristic = new Dialog_BTLE_Characteristic();
-
-            dialog_btle_characteristic.setTitle(uuid);
-            dialog_btle_characteristic.setService(mBTLE_Service);
-            dialog_btle_characteristic.setCharacteristic(characteristic);
-
-            dialog_btle_characteristic.show(getFragmentManager(), "Dialog_BTLE_Characteristic");
+            mBTLE_Service.setCharacteristicNotification(characteristic, true);
+            LinearLayout mapLayout = (LinearLayout) findViewById(R.id.map_layout);
+            mapLayout.setVisibility(View.VISIBLE);
         } else if (Utils.hasReadProperty(characteristic.getProperties()) != 0) {
             if (mBTLE_Service != null) {
                 mBTLE_Service.readCharacteristic(characteristic);
@@ -266,7 +260,6 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
             List<BluetoothGattService> servicesList = mBTLE_Service.getSupportedGattServices();
 
             for (BluetoothGattService service : servicesList) {
-
                 services_ArrayList.add(service);
 
                 List<BluetoothGattCharacteristic> characteristicsList = service.getCharacteristics();
@@ -275,6 +268,14 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
                 for (BluetoothGattCharacteristic characteristic: characteristicsList) {
                     characteristics_HashMap.put(characteristic.getUuid().toString(), characteristic);
                     newCharacteristicsList.add(characteristic);
+                    Log.d("CHARACTERISTIC", characteristic.getUuid().toString());
+
+                    if (characteristic.getUuid().toString().equals("e3754285-8072-458b-a45b-94a0dab36801")) {
+                        mBTLE_Service.setCharacteristicNotification(characteristic, true);
+                        LinearLayout mapLayout = (LinearLayout) findViewById(R.id.map_layout);
+                        mapLayout.setVisibility(View.VISIBLE);
+
+                    }
                 }
 
                 characteristics_HashMapList.put(service.getUuid().toString(), newCharacteristicsList);
@@ -282,6 +283,7 @@ public class Activity_BTLE_Services extends AppCompatActivity implements Expanda
 
             if (servicesList != null && servicesList.size() > 0) {
                 expandableListAdapter.notifyDataSetChanged();
+                expandableListView.expandGroup(2);
             }
         }
     }

@@ -142,6 +142,7 @@ public class ListAdapter_BTLE_Services extends BaseExpandableListAdapter {
             }
 
             tv_value.setText(stringToPrint);
+            Log.d("CHARACTERISTIC", stringToPrint);
 
             if (autoMark) {
                 ((Activity_BTLE_Services)(this.activity)).addMarker(true, stringToPrint);
