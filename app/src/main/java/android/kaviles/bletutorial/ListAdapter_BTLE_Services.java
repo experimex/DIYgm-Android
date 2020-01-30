@@ -37,7 +37,7 @@ public class ListAdapter_BTLE_Services extends BaseExpandableListAdapter {
         this.activity = activity;
         this.services_ArrayList = listDataHeader;
         this.characteristics_HashMap = listChildData;
-        this.autoMark = true;
+        this.autoMark = false;
     }
 
     @Override
